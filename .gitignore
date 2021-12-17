@@ -1,3 +1,7 @@
+# Working files
+ignore/
+audio_outputs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
