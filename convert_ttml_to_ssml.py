@@ -10,7 +10,10 @@ import azure.cognitiveservices.speech as speechsdk
 import wave
 import contextlib
 import xml.etree.ElementTree as xml
+import shutil
 
+from rich import pretty
+pretty.install()
 
 def combine_ttml_to_sentences(ttml_file_path):
     ## combine phrases into more complete sentences, which will be more natural for the speech synthesis
@@ -92,7 +95,7 @@ def get_synthesized_speech_from_ssml(ssml, voice_name, voice_language, output_fi
 
 def pre_process_audio_snippets(sentences_list, voice_name, voice_language, audio_staging_directory, service_region, speech_key, prefix):
     for i, sentence in enumerate(sentences_list):
-        filename = f"{audio_staging_directory}/{prefix}_{i}.wav" # !! TODO rename this
+        filename = f"{audio_staging_directory}/{prefix}_{i}.wav"
         sentences_list[i]['audio_file'] = filename    
         get_synthesized_speech(
             text=sentence['text'], 
@@ -107,77 +110,123 @@ def pre_process_audio_snippets(sentences_list, voice_name, voice_language, audio
 
     return sentences_list
 
-def build_ssml(sentences_list, voice_name, voice_language, output_path):
+def generate_ssml_breaks(parent_xml, break_length_in_sec) -> xml.Element:
+    max_break_length_in_sec = 5
+    num_full_breaks = int(break_length_in_sec // max_break_length_in_sec)
+    remainder_break_length_in_sec = break_length_in_sec % max_break_length_in_sec
+
+    if num_full_breaks == 0:
+        break_list = [remainder_break_length_in_sec]
+    else:
+        break_list = [5] * num_full_breaks
+        if remainder_break_length_in_sec > 0:
+            break_list.append(remainder_break_length_in_sec)
+
+    for b in break_list:
+        ## insert code to add a break here.
+        brk_ms = int(b * 1000)
+        brk = xml.Element("break", attrib={"time":f"{brk_ms}"})
+        parent_xml.append(brk)
+
+def build_ssml(sentences_list, voice_name, voice_language, output_path, adjust_rate = False):
     ## Build the XML tree for SSML
     root = xml.Element("speak", attrib={'version':'1.0', 'xmlns':'http://www.w3.org/2001/10/synthesis', 'xml:lang': f'{voice_language}'})
     voice_element = xml.Element('voice', attrib={'name':f'{voice_name}'})
     root.append(voice_element)
 
-    latest_timestamp = datetime.strptime("00:00:00.000", "%H:%M:%S.%f")
-    next_timestamp = datetime.strptime("00:00:00.000", "%H:%M:%S.%f")
+    # latest_timestamp = datetime.strptime("00:00:00.000", "%H:%M:%S.%f")
+    # next_timestamp = datetime.strptime("00:00:00.000", "%H:%M:%S.%f")
+    accumulated_overage_time = 0
+    
+    ## Insert starting break
+    file_start = datetime.strptime("00:00:00.000", "%H:%M:%S.%f")
+    first_time_stamp = datetime.strptime(sentences_list[0]['begin'], "%H:%M:%S.%f")
+    starting_break_sec = (first_time_stamp - file_start).total_seconds()
+    generate_ssml_breaks(voice_element, starting_break_sec)
 
+    ## for each sentence, generate the objects and corresponding breaks
     for sentence in sentences_list:
-        next_timestamp = datetime.strptime(sentence['begin'], "%H:%M:%S.%f")
-        if next_timestamp > latest_timestamp:
-            ## get the time needed for the break
-            break_time = next_timestamp - latest_timestamp
-            break_time_sec = break_time.total_seconds()
-            
-            ## create a break element(s) based on the gap, with a max of 5 seconds
-            max_break = [5]
-            num_breaks = break_time_sec // max_break[0]
-            break_list = [pause_break for pause_break in max_break for i in range(int(num_breaks))]
-            break_list.append(break_time_sec % max_break[0])
 
-            for b in break_list:
-                ## insert code to add a break here.
-                brk_ms = int(b * 1000)
-                brk = xml.Element("break", attrib={"time":f"{brk_ms}"})
-                voice_element.append(brk)
-            
-            latest_timestamp = datetime.strptime(sentence['end'], "%H:%M:%S.%f")
+        # ## Put any breaks that precede the sentence
+        # next_timestamp = datetime.strptime(sentence['begin'], "%H:%M:%S.%f")
+        # if next_timestamp > latest_timestamp:
+        #     pre_break_time = next_timestamp - latest_timestamp
+        #     pre_break_time_sec = pre_break_time.total_seconds() + accumulated_overage_time
+        #     if pre_break_time_sec > 0:
+        #         generate_ssml_breaks(voice_element, pre_break_time_sec)
+        #         accumulated_overage_time = 0
+        #     else:
+        #         accumulated_overage_time += pre_break_time_sec
 
-        ## insert code to add a sentence here
-        #s = xml.Element("s")
-        #s.text = sentence['text']
-        prosody = xml.Element("prosody", attrib={'rate':f"{round(sentence['phrase_prosody_rate'], 2)}"})
-        #s.text = sentence['text']
-        prosody.text = sentence['text']
-        voice_element.append(prosody)
+        # latest_timestamp = next_timestamp
+
+        ## Create the sentence
+        # sentence_element = xml.Element("s", attrib={"duration": str(int(sentence['actual_duration']*1000))})
+        sentence_element = xml.Element("s")
+        sentence_element.text = sentence['text']
+        voice_element.append(sentence_element) 
+        non_break_element = xml.Element('break', attrib={'strength': 'none'})
+        voice_element.append(non_break_element)
+
+        ## Put any breaks needed after the sentence        
+        sentence_gap_in_sec = sentence['target_duration'] - sentence['actual_duration']
+        if sentence_gap_in_sec >= 0: ## if the generated audio is shorter than the target audio
+            
+            ## Add the appropriate filler gap, removing any accumulated overages
+            ## Ex sentence gap is 3.5 seconds
+            ## Accumulated gap is -7.5 seconds
+            ## break_duration = 3.5 seconds + -7.5 seconds = -4 seconds
+            break_duration = sentence_gap_in_sec + accumulated_overage_time
+
+            if break_duration > 0:
+                ## create breaks, zero out the accumulated time
+                generate_ssml_breaks(voice_element, sentence_gap_in_sec)
+                accumulated_overage_time = 0
+            else: 
+                ## otherwise, just update the accumulated overage time
+                ## skip creating a break
+                accumulated_overage_time = break_duration
+        else:
+            accumulated_overage_time =+ sentence_gap_in_sec        
 
     tree = xml.ElementTree(root)
     tree.write(output_path, encoding='utf-8')
-    return True
+    ssml_string = str(xml.tostring(root, encoding='utf-8'), encoding='utf-8')
+    print(ssml_string)
+    return ssml_string
 
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-i', '--infile', type=str, help='input ttml file path')
-    parser.add_argument('-o', '--outfile', type=str, default="generated_ssml.xml", help='output ssml file path')
+    parser.add_argument('-o', '--outputdirectory', type=str, default="output", help='output ssml file path')
     parser.add_argument('-v', '--voice', required=False, type=str)
     parser.add_argument('-l', '--language', required=False, type=str)
     parser.add_argument('-p', '--prefix', default="".join(random.choices(string.ascii_letters, k=3)), type=str)
-    parser.add_argument('-s', '--stagingdir', default=f'audio_outputs', type=str)
-    
+    parser.add_argument('-r', '--rateadjust', default=1.0, type=float)
+    parser.add_argument('-s', '--stagingdir', default='audio_outputs', type=str)
+
     args = parser.parse_args()
 
-    input_ttml = args.infile
-    output_ssml = args.outfile
+    # input_ttml = args.infile
+    input_ttml = args.infile 
+    output_directory = args.outputdirectory
     prefix = args.prefix
     voice_name = args.voice
     voice_language = args.language
     staging_directory = args.stagingdir
-    
+
+    output_ssml = os.path.join(output_directory, 'generated_ssml.xml')
+
     ## load values from the .env file
     load_dotenv()
 
-    if not (input_ttml and output_ssml):
+    if not (input_ttml):
         try:
             input_ttml = os.environ['INPUT_TTML_PATH']
-            output_ssml = os.environ['OUTPUT_SSML_PATH']
         except Exception as e:
-            print("You must provide an input and output path as command line arguements, or as an environment variable.")
+            print("You must provide an input path as command line arguements, or as an environment variable.")
             raise e 
 
     if not (voice_language and voice_name):
@@ -196,11 +245,19 @@ if __name__ == "__main__":
         raise e
 
     ## Run the stuff. 
+    ## Clear the staging directory, then recreate it
+    os.makedirs(output_directory, exist_ok=True)
+
+    staging_directory = os.path.join(output_directory, staging_directory)
+
+    if os.path.exists(staging_directory):
+        shutil.rmtree(staging_directory)
+
     os.makedirs(staging_directory, exist_ok=True)
-    
+
     ## Combine the captions into complete sentences
     combined_sentences = combine_ttml_to_sentences(input_ttml)
-    
+
     ## Process the sentences to get the estimated audio lengths, and generate prosody rates as needed. 
     processed_sentences = pre_process_audio_snippets(
         combined_sentences, 
@@ -211,23 +268,17 @@ if __name__ == "__main__":
         service_region=service_region,
         speech_key=speech_key
     )
+
+    with open(os.path.join(output_directory, "sentences_list.txt"), "w") as f:
+        f.write(str(processed_sentences))
+
     ## Use the processed data to generate an SSML document (writes to file)
-    if build_ssml(
+    ssml_string = build_ssml(
         sentences_list=processed_sentences,
         voice_name=voice_name,
         voice_language=voice_language,
         output_path=output_ssml
-    ):
-        print(f"Completed generating SSML. {output_ssml}")
-    ## Read the SSML back in
-    with open(output_ssml, 'r', encoding='utf-8') as f:
-        ssml_string = f.read()
-    ## Submit the SSML for processing.
-    get_synthesized_speech_from_ssml(
-        ssml=ssml_string,
-        voice_name=voice_name,
-        voice_language=voice_language,
-        service_region=service_region,
-        speech_key=speech_key,
-        output_filename=f'{prefix}_{output_ssml}_finalized_audio.wav'
     )
+    
+    if ssml_string:
+        print(f"Completed generating SSML. {output_ssml}")

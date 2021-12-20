@@ -7,9 +7,9 @@ name = "pypi"
 bs4 = "*"
 azure-cognitiveservices-speech = "*"
 python-dotenv = "*"
+rich = "*"
 
 [dev-packages]
-
 
 [requires]
 python_version = "3.9"
