@@ -8,6 +8,8 @@ bs4 = "*"
 azure-cognitiveservices-speech = "*"
 python-dotenv = "*"
 rich = "*"
+urllib3 = "*"
+requests = "*"
 
 [dev-packages]
 
