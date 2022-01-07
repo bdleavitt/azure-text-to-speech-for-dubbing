@@ -2,7 +2,10 @@
 ignore/
 audio_outputs/
 output/
-james_output
+james_pace/
+ttml_outputs/
+hopefully_final/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
