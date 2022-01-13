@@ -11,14 +11,13 @@ import xml.etree.ElementTree as xml
 import shutil
 
 class TTMLConverter:
-    def __init__(self, ttml_text = None, ttml_file_path = None, output_staging_directory = None):
+    def __init__(self, ttml_text = None, ttml_file_path = None, output_staging_directory = None, prefix = 'tts'):
         self.speech_key = ""
         self.service_region = ""
         self.voice_name = ""
         self.voice_language = ""
-        self.prefix = "bdl"
+        self.prefix = prefix
         self.target_audio_format = 'Riff16Khz16BitMonoPcm'
-        
         if ttml_file_path is not None:
             with open(ttml_file_path, 'r', encoding="utf-8") as f:
                 self.ttml_text = f.read()

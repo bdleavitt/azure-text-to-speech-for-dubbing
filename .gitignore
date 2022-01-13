@@ -5,6 +5,7 @@ output/
 james_pace/
 ttml_outputs/
 hopefully_final/
+berry_output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

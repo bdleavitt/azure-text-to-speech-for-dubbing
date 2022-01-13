@@ -10,6 +10,8 @@ python-dotenv = "*"
 rich = "*"
 urllib3 = "*"
 requests = "*"
+azure-identity = "*"
+azure-mgmt-media = "*"
 
 [dev-packages]
 
