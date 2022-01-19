@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1ddde2b4cb8212e8cdd3b4c91eebaa019dfca2c3f7f2d7f8fa29a7b9cc633878"
+            "sha256": "9a974d1c947c2a198a94a23df990255e4a3d316d57019aaf2acd48b842d25297"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -76,6 +76,22 @@
             ],
             "index": "pypi",
             "version": "==8.0.0"
+        },
+        "azure-mgmt-videoanalyzer": {
+            "hashes": [
+                "sha256:48e24a24e88dfd7740c94e35aa028443b365aa7f1f35f5dec2457da11195b813",
+                "sha256:b84d3bf51502af83ed11c2f103e828d2f42d49b1c431117dcc07f150f659526d"
+            ],
+            "index": "pypi",
+            "version": "==1.0.0b3"
+        },
+        "azure-storage-blob": {
+            "hashes": [
+                "sha256:7f74534e9aed25f504c7358621ec9c8b79619e34b87a95713ea8d62be2acb33c",
+                "sha256:bdcb68f8aba0865f28d1872945d83ccbdf9d253717619705286ec543402933e4"
+            ],
+            "index": "pypi",
+            "version": "==12.10.0b2"
         },
         "beautifulsoup4": {
             "hashes": [
@@ -324,11 +340,11 @@
         },
         "rich": {
             "hashes": [
-                "sha256:720974689960e06c2efdb54327f8bf0cdbdf4eae4ad73b6c94213cad405c371b",
-                "sha256:c59d73bd804c90f747c8d7b1d023b88f2a9ac2454224a4aeaf959b21eeb42d03"
+                "sha256:c32a8340b21c75931f157466fefe81ae10b92c36a5ea34524dff3767238774a4",
+                "sha256:d7a8086aa1fa7e817e3bba544eee4fd82047ef59036313147759c11475f0dafd"
             ],
             "index": "pypi",
-            "version": "==10.16.2"
+            "version": "==11.0.0"
         },
         "six": {
             "hashes": [

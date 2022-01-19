@@ -1,3 +1,4 @@
+from audioop import avg
 import os
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -9,6 +10,7 @@ import wave
 import contextlib
 import xml.etree.ElementTree as xml
 import shutil
+import random
 
 class TTMLConverter:
     def __init__(self, ttml_text = None, ttml_file_path = None, output_staging_directory = None, prefix = 'tts'):
@@ -26,11 +28,12 @@ class TTMLConverter:
         else:
             raise AttributeError("You must provide either a file path or a string value for your TTML input.") 
         
-        if output_staging_directory is not None: 
-            self.output_staging_directory = output_staging_directory
+        if output_staging_directory is None:
+            now_string = datetime.strftime(datetime.now(), "%Y%m%d_%H%M%S")
+            self.output_staging_directory = os.path.join('outputs', now_string)
         else:
-            self.output_staging_directory = "ttml_outputs"
-        
+            self.output_staging_directory = os.path.join('outputs', output_staging_directory)
+
         ## clear the staging directory and create it
         if os.path.exists(self.output_staging_directory):
             shutil.rmtree(self.output_staging_directory) 
@@ -116,6 +119,12 @@ class TTMLConverter:
 
         prosody_rates = [sentence['phrase_prosody_rate'] for sentence in sentences_list]
         avg_prosody_rate = sum(prosody_rates) / len(prosody_rates)
+        
+        ## if the synthesized voice is already talking on average faster than the source voice,
+        ## don't change the rate. We will use breaks to maintain the timing. 
+        if avg_prosody_rate > 1:
+            avg_prosody_rate = 1
+        
         return_dict['avg_prosody'] = avg_prosody_rate
         return_dict['prosody_rates'] = prosody_rates
         return_dict['list'] = sentences_list
@@ -164,7 +173,14 @@ class TTMLConverter:
             brk = xml.Element("break", attrib={"time":f"{brk_ms}"})
             parent_xml.append(brk)
 
-    def build_ssml(self, sentences_list, insert_breaks=True, output_files=True, output_file_num = None, prosody_rate = 1, file_start="00:00:00.000"):
+    def build_ssml(self, 
+        sentences_list, 
+        insert_breaks=True, 
+        output_files=True, 
+        output_file_num = None, 
+        prosody_rate = 1, 
+        file_start="00:00:00.000"
+        ):
         ## Build the XML tree for SSML
         root = xml.Element("speak", attrib={'version':'1.0', 'xmlns':'http://www.w3.org/2001/10/synthesis', 'xml:lang': f'{self.voice_language}'})
         voice_element = xml.Element('voice', attrib={'name':f'{self.voice_name}'})
@@ -183,7 +199,7 @@ class TTMLConverter:
             starting_break_sec = (first_time_stamp - file_start).total_seconds()
             
             ## Put any breaks that precede the sentence
-            self.generate_ssml_breaks(voice_element, starting_break_sec)
+            self.generate_ssml_breaks(prosody_element, starting_break_sec)
 
         ## for each sentence, generate the objects and corresponding breaks
         for sentence in sentences_list:
@@ -208,7 +224,7 @@ class TTMLConverter:
 
                     if break_duration > 0:
                         ## create breaks, zero out the accumulated time
-                        self.generate_ssml_breaks(voice_element, sentence_gap_in_sec)
+                        self.generate_ssml_breaks(prosody_element, sentence_gap_in_sec)
                         accumulated_overage_time = 0
                     else: 
                         ## otherwise, just update the accumulated overage time
@@ -250,7 +266,8 @@ class TTMLConverter:
         else:
             speech_config.set_speech_synthesis_output_format(speechsdk.SpeechSynthesisOutputFormat[speech_synthesis_output_format])
         if not output_filename:
-            output_filename = os.path.join(self.output_staging_directory, "generated_audio.mp3")
+            audio_filename = f"{self.voice_language}_generated_audio.mp3"
+            output_filename = os.path.join(self.output_staging_directory, audio_filename)
         audio_config = speechsdk.audio.AudioConfig(filename=output_filename)
         speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)
         return speech_synthesizer

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tt xml:lang="en-US" xmlns="http://www.w3.org/ns/ttml" xmlns:tts="http://www.w3.org/ns/ttml#styling" xmlns:ttm="http://www.w3.org/ns/ttml#metadata">
+  <head>
+    <metadata>
+      <ttm:copyright>Copyright (c) 2013 Microsoft Corporation.  All rights reserved.</ttm:copyright>
+    </metadata>
+    <styling>
+      <style xml:id="Style1" tts:fontFamily="proportionalSansSerif" tts:fontSize="0.8c" tts:textAlign="center" tts:color="white" />
+    </styling>
+    <layout>
+      <region style="Style1" xml:id="CaptionArea" tts:origin="0c 12.6c" tts:extent="32c 2.4c" tts:backgroundColor="rgba(0,0,0,160)" tts:displayAlign="center" tts:padding="0.3c 0.5c" />
+    </layout>
+  </head>
+  <body region="CaptionArea">
+    <div>
+      <!-- Confidence: 0.833 -->
+      <p begin="00:00:05.030" end="00:00:07.740">Regards, Youtube. I'm James, I'm a fan of</p>
+
+      <!-- Confidence: 0.8704 -->
+      <p begin="00:00:07.750" end="00:00:10.530">the data and I can't wait to show you how</p>
+
+      <!-- Confidence: 0.8556 -->
+      <p begin="00:00:10.540" end="00:00:14.784">you can turn him into an office superhero with Power</p>
+
+      <!-- Confidence: 0.8556 -->
+      <p begin="00:00:14.865" end="00:00:15.110">Bi.</p>
+
+      <!-- Confidence: 0.9004 -->
+      <p begin="00:00:15.110" end="00:00:19.492">This is the first in a series of videos aimed</p>
+
+      <!-- Confidence: 0.9004 -->
+      <p begin="00:00:19.589" end="00:00:25.140">at helping you make a tremendous impact on your business.</p>
+
+      <!-- Confidence: 0.8857 -->
+      <p begin="00:00:25.140" end="00:00:28.599">In this video we will talk about the most fundamental</p>
+
+      <!-- Confidence: 0.8857 -->
+      <p begin="00:00:28.664" end="00:00:29.904">elements of Barbie.</p>
+
+      <!-- Confidence: 0.7715 -->
+      <p begin="00:00:29.975" end="00:00:30.890">There are included</p>
+
+      <!-- Confidence: 0.8914 -->
+      <p begin="00:00:30.900" end="00:00:34.220">the steps of. Obtain data,</p>
+
+      <!-- Confidence: 0.875 -->
+      <p begin="00:00:34.220" end="00:00:37.920">transform data and load the data.</p>
+
+      <!-- Confidence: 0.8498 -->
+      <p begin="00:00:37.920" end="00:00:40.841">And we will talk about the 3 views of paulie</p>
+
+      <!-- Confidence: 0.8498 -->
+      <p begin="00:00:40.907" end="00:00:42.700">once the data, report, data</p>
+
+      <!-- Confidence: 0.8742 -->
+      <p begin="00:00:42.700" end="00:00:47.888">and model are loaded, let's take a look at the</p>
+
+      <!-- Confidence: 0.8742 -->
+      <p begin="00:00:48.001" end="00:00:48.790">laptop.</p>
+
+      <!-- Confidence: 0.8685 -->
+      <p begin="00:00:48.790" end="00:00:53.237">Let's start with getting pavia and use the desktop app</p>
+
+      <!-- Confidence: 0.8685 -->
+      <p begin="00:00:53.319" end="00:00:58.012">to design the travel solution before publishing it to the</p>
+
+      <!-- Confidence: 0.8685 -->
+      <p begin="00:00:58.095" end="00:00:59.330">cloud, where it</p>
+
+      <!-- Confidence: 0.8647 -->
+      <p begin="00:00:59.330" end="00:01:05.350">is automatically updated to get it from the app store.</p>
+
+      <!-- Confidence: 0.8357 -->
+      <p begin="00:01:05.350" end="00:01:11.656">App Store. It will ensure that it updates automatically once</p>
+
+      <!-- Confidence: 0.8357 -->
+      <p begin="00:01:11.761" end="00:01:15.650">installed now via and click get data.</p>
+
+      <!-- Confidence: 0.8494 -->
+      <p begin="00:01:15.650" end="00:01:18.600">Today we will take out of an Excel workbook that</p>
+
+      <!-- Confidence: 0.8494 -->
+      <p begin="00:01:18.661" end="00:01:19.030">I made</p>
+
+      <!-- Confidence: 0.8327 -->
+      <p begin="00:01:19.030" end="00:01:23.164">with 3 sheets, now that we got the 3 sheets</p>
+
+      <!-- Confidence: 0.8327 -->
+      <p begin="00:01:23.260" end="00:01:27.106">we can let Pavia e do its magic and make</p>
+
+      <!-- Confidence: 0.8327 -->
+      <p begin="00:01:27.202" end="00:01:28.740">the data usable.</p>
+
+      <!-- Confidence: 0.8906 -->
+      <p begin="00:01:28.740" end="00:01:33.560">Or we can check its function before loading the</p>
+
+      <!-- Confidence: 0.7615 -->
+      <p begin="00:01:33.560" end="00:01:37.310">data, today let's review Barbie's work by clicking.</p>
+
+      <!-- Confidence: 0.8369 -->
+      <p begin="00:01:37.310" end="00:01:43.420">In transforming data. On the left we see where Barbie</p>
+
+      <!-- Confidence: 0.8369 -->
+      <p begin="00:01:43.535" end="00:01:45.610">got the data from.</p>
+
+      <!-- Confidence: 0.882 -->
+      <p begin="00:01:45.610" end="00:01:49.350">In the middle we see the real data on the</p>
+
+      <!-- Confidence: 0.8587 -->
+      <p begin="00:01:49.350" end="00:01:55.150">right, we can compare with testing the intelligent transformation work</p>
+
+      <!-- Confidence: 0.8587 -->
+      <p begin="00:01:55.233" end="00:01:56.890">he did for the trip.</p>
+
+      <!-- Confidence: 0.8645 -->
+      <p begin="00:01:56.890" end="00:02:01.680">We can edit and add them. At those</p>
+
+      <!-- Confidence: 0.8327 -->
+      <p begin="00:02:01.782" end="00:02:05.256">steps, for example, we see here that by way of</p>
+
+      <!-- Confidence: 0.8327 -->
+      <p begin="00:02:05.332" end="00:02:07.220">converting the front row.</p>
+
+      <!-- Confidence: 0.8923 -->
+      <p begin="00:02:07.220" end="00:02:11.894">In the column headers we also see that it changed</p>
+
+      <!-- Confidence: 0.8923 -->
+      <p begin="00:02:11.989" end="00:02:13.420">the data types.</p>
+
+      <!-- Confidence: 0.9206 -->
+      <p begin="00:02:13.420" end="00:02:15.180">It seems like everything makes</p>
+
+      <!-- Confidence: 0.9212 -->
+      <p begin="00:02:15.180" end="00:02:17.720">sense, so we don't need to change anything.</p>
+
+      <!-- Confidence: 0.9076 -->
+      <p begin="00:02:17.720" end="00:02:20.625">If we wanted to change something it would be as</p>
+
+      <!-- Confidence: 0.9076 -->
+      <p begin="00:02:20.687" end="00:02:23.160">simple as clicking on the buttons above.</p>
+
+      <!-- Confidence: 0.8967 -->
+      <p begin="00:02:23.160" end="00:02:26.091">Or would it be so advanced? How to update the</p>
+
+      <!-- Confidence: 0.8967 -->
+      <p begin="00:02:26.156" end="00:02:28.240">Code for every 1 of these steps?</p>
+
+      <!-- Confidence: 0.8157 -->
+      <p begin="00:02:28.240" end="00:02:31.917">The code, the code is called Ehmm Siri and is</p>
+
+      <!-- Confidence: 0.8157 -->
+      <p begin="00:02:31.999" end="00:02:36.983">a language of care and consultation that guarantees that each</p>
+
+      <!-- Confidence: 0.8157 -->
+      <p begin="00:02:37.065" end="00:02:40.170">step of the cri ó consulta is based on</p>
+
+      <!-- Confidence: 0.9061 -->
+      <p begin="00:02:40.257" end="00:02:44.188">the previous one, so it is very easy to understand</p>
+
+      <!-- Confidence: 0.9061 -->
+      <p begin="00:02:44.267" end="00:02:46.940">the transformations that are made.</p>
+
+      <!-- Confidence: 0.8444 -->
+      <p begin="00:02:46.940" end="00:02:51.698">Now that we have the data and check out Barbie's</p>
+
+      <!-- Confidence: 0.8444 -->
+      <p begin="00:02:51.797" end="00:02:53.780">transformation work.</p>
+
+      <!-- Confidence: 0.8655 -->
+      <p begin="00:02:53.780" end="00:02:56.660">Let's move on to loading the data.</p>
+
+      <!-- Confidence: 0.8602 -->
+      <p begin="00:02:56.660" end="00:02:59.610">There are 3 icons on the left.</p>
+
+      <!-- Confidence: 0.9134 -->
+      <p begin="00:02:59.610" end="00:03:01.570">The first is called a</p>
+
+      <!-- Confidence: 0.8715 -->
+      <p begin="00:03:01.570" end="00:03:04.970">report, the next is called data, and the third is</p>
+
+      <!-- Confidence: 0.8715 -->
+      <p begin="00:03:05.039" end="00:03:06.080">called a model.</p>
+
+      <!-- Confidence: 0.8513 -->
+      <p begin="00:03:06.080" end="00:03:10.352">Now he's watching. A blank canvas where he will soon</p>
+
+      <!-- Confidence: 0.8513 -->
+      <p begin="00:03:10.434" end="00:03:11.420">be painting.</p>
+
+      <!-- Confidence: 0.9021 -->
+      <p begin="00:03:11.420" end="00:03:14.740">This is where data visualization happens.</p>
+
+      <!-- Confidence: 0.9226 -->
+      <p begin="00:03:14.740" end="00:03:18.580">We will return to this point later.</p>
+
+      <!-- Confidence: 0.8864 -->
+      <p begin="00:03:18.580" end="00:03:21.460">The next two are data and</p>
+
+      <!-- Confidence: 0.8536 -->
+      <p begin="00:03:21.460" end="00:03:26.358">model, and coincidentally we refer to what we do together,</p>
+
+      <!-- Confidence: 0.8536 -->
+      <p begin="00:03:26.442" end="00:03:26.780">such</p>
+
+      <!-- Confidence: 0.8434 -->
+      <p begin="00:03:26.780" end="00:03:31.498">as modeling from data. The data section is similar to</p>
+
+      <!-- Confidence: 0.8434 -->
+      <p begin="00:03:31.587" end="00:03:33.190">the transform data</p>
+
+      <!-- Confidence: 0.8681 -->
+      <p begin="00:03:33.190" end="00:03:37.467">section, except that where transforming data is for things that</p>
+
+      <!-- Confidence: 0.8681 -->
+      <p begin="00:03:37.535" end="00:03:40.521">will be done once in advance and will not be</p>
+
+      <!-- Confidence: 0.8681 -->
+      <p begin="00:03:40.589" end="00:03:42.490">updated until it is updated.</p>
+
+      <!-- Confidence: 0.9264 -->
+      <p begin="00:03:42.490" end="00:03:44.830">The entire dataset.</p>
+
+      <!-- Confidence: 0.859 -->
+      <p begin="00:03:44.830" end="00:03:50.901">Data allows you to create measures that are emphasized in</p>
+
+      <!-- Confidence: 0.859 -->
+      <p begin="00:03:51.007" end="00:03:53.350">real time as tailored.</p>
+
+      <!-- Confidence: 0.8613 -->
+      <p begin="00:03:53.350" end="00:03:57.840">That the report consumer filters the data.</p>
+
+      <!-- Confidence: 0.8148 -->
+      <p begin="00:03:57.840" end="00:04:00.770">It uses a piece of data called DAX.</p>
+
+      <!-- Confidence: 0.8595 -->
+      <p begin="00:04:03.960" end="00:04:06.200">Until it's more</p>
+
+      <!-- Confidence: 0.8897 -->
+      <p begin="00:04:06.200" end="00:04:08.140">advanced, don't worry about</p>
+
+      <!-- Confidence: 0.8803 -->
+      <p begin="00:04:08.140" end="00:04:10.670">this section, you'll know it's there.</p>
+
+      <!-- Confidence: 0.8897 -->
+      <p begin="00:04:10.670" end="00:04:14.619">The last section is the model that has the relationships</p>
+
+      <!-- Confidence: 0.8897 -->
+      <p begin="00:04:14.690" end="00:04:16.030">between the tables.</p>
+
+      <!-- Confidence: 0.8203 -->
+      <p begin="00:04:16.030" end="00:04:19.166">We can check the work of Power view and see</p>
+
+      <!-- Confidence: 0.8203 -->
+      <p begin="00:04:19.239" end="00:04:23.469">that the product connects the product table with the sales</p>
+
+      <!-- Confidence: 0.8203 -->
+      <p begin="00:04:23.542" end="00:04:23.980">table.</p>
+
+      <!-- Confidence: 0.8897 -->
+      <p begin="00:04:23.980" end="00:04:29.285">Each product in the product table corresponds to several products</p>
+
+      <!-- Confidence: 0.8897 -->
+      <p begin="00:04:29.366" end="00:04:31.080">in the product table.</p>
+
+      <!-- Confidence: 0.86 -->
+      <p begin="00:04:31.080" end="00:04:34.791">Does that make sense? Good job for travel if I</p>
+
+      <!-- Confidence: 0.86 -->
+      <p begin="00:04:34.872" end="00:04:35.840">wanted to do</p>
+
+      <!-- Confidence: 0.8968 -->
+      <p begin="00:04:35.840" end="00:04:38.960">something different, I would just have to double click</p>
+
+      <!-- Confidence: 0.8737 -->
+      <p begin="00:04:38.960" end="00:04:44.030">on it, on the line and make the updates.</p>
+
+      <!-- Confidence: 0.8789 -->
+      <p begin="00:04:44.030" end="00:04:48.141">Now, believe it or not, everything we've seen so far</p>
+
+      <!-- Confidence: 0.8789 -->
+      <p begin="00:04:48.220" end="00:04:50.750">is available in Microsoft Excel.</p>
+
+      <!-- Confidence: 0.805 -->
+      <p begin="00:04:50.750" end="00:04:55.110">So what makes paying for trips so special?</p>
+
+      <!-- Confidence: 0.8981 -->
+      <p begin="00:04:55.110" end="00:04:59.710">These are two things. First is the ability to publish</p>
+
+      <!-- Confidence: 0.8981 -->
+      <p begin="00:04:59.797" end="00:05:03.790">all the data processing we've set up so far in</p>
+
+      <!-- Confidence: 0.8981 -->
+      <p begin="00:05:03.877" end="00:05:05.960">the cloud so that it can</p>
+
+      <!-- Confidence: 0.9138 -->
+      <p begin="00:05:05.960" end="00:05:12.719">be updated, updated, and shared. Second. It's the data visualization</p>
+
+      <!-- Confidence: 0.9138 -->
+      <p begin="00:05:12.818" end="00:05:14.110">capabilities.</p>
+
+      <!-- Confidence: 0.8575 -->
+      <p begin="00:05:14.110" end="00:05:19.500">What do they believe? Interconnected charts and graphs.</p>
+
+      <!-- Confidence: 0.9175 -->
+      <p begin="00:05:19.500" end="00:05:21.930">In a very intuitive way.</p>
+
+      <!-- Confidence: 0.872 -->
+      <p begin="00:05:21.930" end="00:05:26.655">As an example I just click on the columns I</p>
+
+      <!-- Confidence: 0.872 -->
+      <p begin="00:05:26.765" end="00:05:30.940">want and automatically create a table.</p>
+
+      <!-- Confidence: 0.8851 -->
+      <p begin="00:05:30.940" end="00:05:35.700">I click here and it becomes a bar chart.</p>
+
+      <!-- Confidence: 0.8698 -->
+      <p begin="00:05:35.700" end="00:05:40.963">You now have a complete overview of the fundamentals of</p>
+
+      <!-- Confidence: 0.8698 -->
+      <p begin="00:05:41.059" end="00:05:44.600">Pavia and I hope you liked the video.</p>
+
+      <!-- Confidence: 0.8562 -->
+      <p begin="00:05:44.600" end="00:05:48.176">Keep tuned in for more. We are going to move</p>
+
+      <!-- Confidence: 0.8562 -->
+      <p begin="00:05:48.257" end="00:05:49.070">very fast.</p>
+    </div>
+  </body>
+</tt>

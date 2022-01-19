@@ -1,11 +1,6 @@
 # Working files
-ignore/
-audio_outputs/
-output/
-james_pace/
-ttml_outputs/
-hopefully_final/
-berry_output/
+outputs/
+inputs/ 
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

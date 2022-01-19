@@ -12,8 +12,13 @@ urllib3 = "*"
 requests = "*"
 azure-identity = "*"
 azure-mgmt-media = "*"
+azure-storage-blob = "*"
+azure-mgmt-videoanalyzer = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true
