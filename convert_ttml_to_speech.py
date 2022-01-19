@@ -97,5 +97,6 @@ if __name__ == "__main__":
         batch_ssml = ""
         batch_ssml = my_converter.build_ssml(batch, output_file_num=index, file_start=start_file_time)
         start_file_time = batch[-1]['end']
+        print(start_file_time)
         res = speech_synthesizer.speak_ssml_async(batch_ssml).get()
         my_converter.check_speech_result(res, f"SSML for batch {index}")
