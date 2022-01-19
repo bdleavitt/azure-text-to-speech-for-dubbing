@@ -1,11 +1,9 @@
 import os, uuid, sys
 import time #Timer for checking job progress
 import random #This is only necessary for the random number generation
-
-
 from azure.identity import DefaultAzureCredential
 from azure.mgmt.media import AzureMediaServices
-from azure.storage.blob import BlobServiceClient, BlobClient
+from azure.storage.blob import BlobServiceClient
 from azure.mgmt.media.models import (
   Asset,
   Transform,
@@ -15,7 +13,6 @@ from azure.mgmt.media.models import (
   JobInputAsset,
   JobOutputAsset
 )
-
 from dotenv import load_dotenv
 from rich import pretty
 from pprint import pprint
@@ -23,45 +20,44 @@ from pprint import pprint
 load_dotenv()
 pretty.install()
 
+translated_audio_file_name = "fr-FR_generated_audio.mp3"
+translated_audio_file_path = 'outputs\\berry_fr\\fr-FR_generated_audio.mp3'
+original_video_media_services_asset_id = "" ## the video that needs dubbing
+asset_name = "berry_fr-FR"
+asset_description = "Language track for fr-FR for Berry video"
+
+
+## environment variables
 tenant_id = os.environ['TENANT_ID']
 client_id=os.environ['AADCLIENTID']
 client_secret = os.environ['AADSECRET']
 subscription_id = os.environ['SUBSCRIPTION_ID']
 resource_group_name = os.environ['RESOURCE_GROUP_NAME']
 account_name = os.environ['MEDIA_SERVICES_ACCOUNT_NAME']
-
-
-#### STORAGE ####
-# Values from .env and the blob url
-# For this sample you will use the storage account connection string to create and access assets
 storage_account_connection = os.getenv('STORAGEACCOUNTCONNECTION')
+
+blob_service_client = BlobServiceClient(
+    account_url = os.environ['STORAGE_ACCOUNT_BLOB_ENDPOINT'],
+    credential = os.environ['STORAGE_ACCOUNT_KEY']
+)
 
 # Get the default Azure credential from the environment variables AADCLIENTID and AADSECRET
 default_credential = DefaultAzureCredential()
-
-# The file you want to upload.  For this example, put the file in the same folder as this script. 
-# The file ignite.mp4 has been provided for you. 
-source_file_directory = "pace_output_2"
-source_file_name = "generated_audio.mp3"
-asset_name = "james_pace_english_with_breaks"
-
-# Generate a random number that will be added to the naming of things so that you don't have to keep doing this during testing.
 uniqueness = random.randint(0,9999)
 
-# Set the attributes of the input Asset using the random number
-in_asset_name = asset_name + '_in_' + str(uniqueness)
-in_alternate_id = 'inputALTid' + str(uniqueness)
-in_description = 'James Pace speaking spanish, in english, with the breaks.' + str(uniqueness)
 # Create an Asset object
-# From the SDK
-# Asset(*, alternate_id: str = None, description: str = None, container: str = None, storage_account_name: str = None, **kwargs) -> None
 # The asset_id will be used for the container parameter for the storage SDK after the asset is created by the AMS client.
-input_asset = Asset(alternate_id=in_alternate_id,description=in_description)
+in_asset_name = f'{asset_name}' + '_in_' 
+in_alternate_id = f'{asset_name}_inputALTid' 
+in_description = f'in: {asset_description}' 
+
+input_asset = Asset(alternate_id=in_alternate_id, description=in_description)
 
 # Set the attributes of the output Asset using the random number
-out_asset_name = 'james_pace_english' + '_out_' + str(uniqueness)
-out_alternate_id = 'outputALTid' + str(uniqueness)
-out_description = 'james_pace_english' + str(uniqueness)
+out_asset_name = f'{asset_name}' + '_out_' 
+out_alternate_id = f'{asset_name}_outputALTid' 
+out_description = f'Out: {asset_description}' 
+
 # From the SDK
 # Asset(*, alternate_id: str = None, description: str = None, container: str = None, storage_account_name: str = None, **kwargs) -> None
 output_asset = Asset(alternate_id=out_alternate_id,description=out_description)
@@ -76,13 +72,18 @@ client = AzureMediaServices(default_credential, subscription_id)
 print("Creating input asset " + in_asset_name)
 # From SDK
 # create_or_update(resource_group_name, account_name, asset_name, parameters, custom_headers=None, raw=False, **operation_config)
-inputAsset = client.assets.create_or_update(resource_group_name, account_name, in_asset_name, input_asset)
+inputAsset = client.assets.create_or_update(
+  resource_group_name, 
+  account_name, 
+  in_asset_name, 
+  input_asset
+)
 
 # An AMS asset is a container with a specific id that has "asset-" prepended to the GUID.
 # So, you need to create the asset id to identify it as the container
 # where Storage is to upload the video (as a block blob)
 in_container = 'asset-' + inputAsset.asset_id
-in_container
+print(f'Input Container: {in_container}')
 
 # create an output Asset
 print("Creating output asset " + out_asset_name)
@@ -91,25 +92,18 @@ print("Creating output asset " + out_asset_name)
 outputAsset = client.assets.create_or_update(resource_group_name, account_name, out_asset_name, output_asset)
 
 ### Use the Storage SDK to upload the video ###
-print("Uploading the file " + source_file_name)
-
-blob_service_client = BlobServiceClient.from_connection_string(storage_account_connection)
-
-# From SDK
-# get_blob_client(container, blob, snapshot=None)
-blob_client = blob_service_client.get_blob_client(in_container,source_file_name)
+print("Uploading the file " + translated_audio_file_path)
+blob_client = blob_service_client.get_blob_client(in_container, translated_audio_file_name)
 working_dir = os.getcwd()
 print("Current working directory:" + working_dir)
-upload_file_path = os.path.join(working_dir, source_file_directory, source_file_name)
-
-# WARNING: Depending on where you are launching the sample from, the path here could be off, and not include the BasicEncoding folder. 
-# Adjust the path as needed depending on how you are launching this python sample file. 
+upload_file_path = os.path.join(working_dir, translated_audio_file_path)
+print(upload_file_path)
 
 # Upload the video to storage as a block blob
 with open(upload_file_path, "rb") as data:
   # From SDK
   # upload_blob(data, blob_type=<BlobType.BlockBlob: 'BlockBlob'>, length=None, metadata=None, **kwargs)
-    blob_client.upload_blob(data)
+    blob_client.upload_blob(data, overwrite=True)
 
 ### Create a Transform ###
 transform_name='ConvertToAAC'
@@ -118,7 +112,6 @@ transform_name='ConvertToAAC'
 transform_output = TransformOutput(
     preset=BuiltInStandardEncoderPreset(preset_name="AACGoodQualityAudio")
 )
-
 transform = Transform()
 transform.outputs = [transform_output]
 
@@ -133,9 +126,9 @@ transform = client.transforms.create_or_update(
 )
 
 ### Create a Job ###
-job_name = 'Converting the MP3'+ str(uniqueness)
+job_name = f'Convert to AAC MP4 - {asset_name}'
 print("Creating job " + job_name)
-files = (source_file_name)
+files =  (translated_audio_file_path)
 # From SDK
 # JobInputAsset(*, asset_name: str, label: str = None, files=None, **kwargs) -> None
 input = JobInputAsset(asset_name=in_asset_name)

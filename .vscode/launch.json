@@ -9,8 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "args": ["-i", ".\\ignore\\james_pace_spanish_for_real.ttml"]
+            "console": "integratedTerminal"
         }
     ]
 }
